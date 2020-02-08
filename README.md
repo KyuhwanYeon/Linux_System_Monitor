@@ -27,7 +27,7 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 
 ## Instructions
 
-1. Clone the project repository: `git clone https://github.com/udacity/CppND-System-Monitor-Project-Updated.git`
+1. Delete build folder
 
 2. Build the project: `make build`
 
@@ -39,3 +39,9 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 5. Implement the `System`, `Process`, and `Processor` classes, as well as functions within the `LinuxParser` namespace.
 
 6. Submit!
+
+## Result
+
+This is my result
+
+![Result System Monitor](images/SystemMonitorResult.png)

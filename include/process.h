@@ -8,13 +8,13 @@ It contains relevant attributes as shown below
 */
 class Process {
  public:
-  int Pid();                 // Accessor              // TODO: See src/process.cpp
-  std::string User();                      // TODO: See src/process.cpp
-  std::string Command();                   // TODO: See src/process.cpp
-  float CpuUtilization();                  // TODO: See src/process.cpp
-  std::string Ram();                       // TODO: See src/process.cpp
-  long int UpTime();                       // TODO: See src/process.cpp
-  bool operator<(Process const& a) const;  // TODO: See src/process.cpp
+  int Pid();                 // Accessor             
+  std::string User();                    
+  std::string Command();                  
+  float CpuUtilization();                  
+  std::string Ram();                       
+  long int UpTime();                       
+  bool operator<(Process const& a) const;  
 
   void Pid(int numPID);   //Mutator
   void User(int numPID);
@@ -24,7 +24,6 @@ class Process {
   void UpTime(int numPID);
 
 
-  // TODO: Declare any necessary private members
  private:
  int pid;
  std::string user;
