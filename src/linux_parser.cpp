@@ -111,6 +111,7 @@ long LinuxParser::UpTime() {
         lnUptime=stol(Uptime1);
        // std::cout<<lnUptime<<std::endl;
         return lnUptime;
+        
       }
     }
   }

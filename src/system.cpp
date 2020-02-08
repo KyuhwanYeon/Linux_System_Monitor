@@ -32,7 +32,7 @@ vector<Process>& System::Processes() {
     processes_[idxPID].Ram(PID);
     processes_[idxPID].CpuUtilization(PID);
     processes_[idxPID].UpTime(PID);
-    std::cout<<processes_[idxPID].UpTime()<<std::endl;
+
   }
 
   return processes_;

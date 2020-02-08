@@ -26,5 +26,5 @@ string Format::ElapsedTime(long seconds)
      if (second<10) { Second = '0' + to_string(second);}  // To append 0
     else {Second = to_string(second);}
   
-
+   
     return string(Hour+":"+Min+":"+Second); }

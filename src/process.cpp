@@ -173,6 +173,8 @@ void Process::UpTime(int numPid) {
       }
       starttime = stof(statpos[21]);  
       uptime = starttime/HERTZ;
+      
+      //uptime = 3333;
       //std::cout<<uptime<<std::endl;
       
     }
