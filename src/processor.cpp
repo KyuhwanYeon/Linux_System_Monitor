@@ -4,7 +4,6 @@
 #include <vector>
 using std::string;
 using std::vector;
-// TODO: Return the aggregate CPU utilization
 using std::stof;
 float Processor::Utilization() {
   string line;
