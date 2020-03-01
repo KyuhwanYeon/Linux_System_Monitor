@@ -44,7 +44,7 @@ string LinuxParser::Kernel() {
     linestream >> os >> kernel>> version;
   }
   stream.close();
-  return kernel;
+  return version;
 }
 
 
@@ -86,7 +86,7 @@ float LinuxParser::MemoryUtilization() {
           MemFree = std::stof(value);
         }
         if (MemTotal > 0 && MemFree > 0) {
-          return MemFree / MemTotal;
+          return (MemTotal-MemFree) / MemTotal;
         }
       }
     }
@@ -116,15 +116,43 @@ long LinuxParser::UpTime() {
   return lnUptime;
 }
 
-long LinuxParser::Jiffies() { return 0; }
+long LinuxParser::Jiffies() { return UpTime() * sysconf(_SC_CLK_TCK); }
 
+long LinuxParser::ActiveJiffies(int pid) {
+  string line, token;
+  vector<string> values;
+  std::ifstream filestream(LinuxParser::kProcDirectory + to_string(pid) +
+                           LinuxParser::kStatFilename);
+  if (filestream.is_open()) {
+    std::getline(filestream, line);
+    std::istringstream linestream(line);
+    while (linestream >> token) {
+      values.push_back(token);
+    }
+  }
+  long jiffies{0};
+  if (values.size() > 21) {
+    long user = stol(values[13]);
+    long kernel = stol(values[14]);
+    long children_user = stol(values[15]);
+    long children_kernel = stol(values[16]);
+    jiffies = user + kernel + children_user + children_kernel;
+  }
+  return jiffies;
+}
 
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
+long LinuxParser::ActiveJiffies() {
+  vector<string> time = CpuUtilization();
+  return (stol(time[CPUStates::kUser_]) + stol(time[CPUStates::kNice_]) +
+          stol(time[CPUStates::kSystem_]) + stol(time[CPUStates::kIRQ_]) +
+          stol(time[CPUStates::kSoftIRQ_]) + stol(time[CPUStates::kSteal_]) +
+          stol(time[CPUStates::kGuest_]) + stol(time[CPUStates::kGuestNice_]));
+}
 
-
-long LinuxParser::ActiveJiffies() { return 0; }
-
-long LinuxParser::IdleJiffies() { return 0; }
+long LinuxParser::IdleJiffies() {
+  vector<string> time = CpuUtilization();
+  return (stol(time[CPUStates::kIdle_]) + stol(time[CPUStates::kIOwait_]));
+}
 
 
 vector<string> LinuxParser::CpuUtilization() { return {}; }
@@ -169,9 +197,3 @@ int LinuxParser::RunningProcesses() {
   }
   return NULL;
 }
-
-string LinuxParser::Command(int pid[[maybe_unused]]) { return string(); }
-string LinuxParser::Ram(int pid[[maybe_unused]]) { return string(); }
-string LinuxParser::Uid(int pid[[maybe_unused]]) { return string(); }
-string LinuxParser::User(int pid[[maybe_unused]]) { return string(); }
-long LinuxParser::UpTime(int pid[[maybe_unused]]) { return 0; }
